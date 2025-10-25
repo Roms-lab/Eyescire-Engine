@@ -1,4 +1,4 @@
-# Cryscire Engine
+# Eyescire Engine
 
 A powerful cross-platform game engine built with Python and C++, supporting both 2D and 3D game development with C++ scripting capabilities.
 
