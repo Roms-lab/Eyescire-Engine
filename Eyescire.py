@@ -2,6 +2,9 @@
 # PROPERTY OF THE EYESCIRE ENGINE #
 ###################################
 
+selected_file = None
+
+
 # --- IMPORTS ---- #
 import Dependencies
 import dearpygui.dearpygui as dpg
@@ -12,6 +15,60 @@ def load_template(template_type):
     dpg.delete_item("template_text", children_only=True)
     dpg.add_text(f"Loading {template_type} Template...", parent="template_text")
     print(f"[Eyescire Engine] {template_type} Template Selected")
+
+    if template_type == "2D":
+        Load2D()
+    elif template_type == "3D":
+        LOAD3D()
+    elif template_type == "Existing":
+        LOADEXISTING()
+
+def handle_file_selection(sender, app_data):
+    """
+    This callback function is executed when the user selects a file
+    and clicks 'OK' in the file dialog.
+    """
+    global selected_file
+    selected_file = app_data['file_path_name']
+    
+    if selected_file:
+        print(f"Selected file: {selected_file}")
+        # Add your file-loading and processing logic here
+        # E.g., open and parse the .eys file
+    else:
+        print("No file was selected.")
+        
+def handle_cancel(sender, app_data):
+    """
+    This callback function is executed if the user clicks 'Cancel'.
+    """
+    print("File selection cancelled.")
+
+
+# --- LOAD EXISTING PROJECT --- #
+def LOADEXISTING():
+    """
+    Creates and shows a file dialog to select a .eys file.
+    """
+    print("Requesting file with .eys extension...")
+    dialog_tag = "load_eys_dialog"
+    
+    # Create the dialog only if it doesn't exist
+    if not dpg.does_item_exist(dialog_tag):
+        with dpg.file_dialog(
+            directory_selector=False,  # Set to False to select files, not directories
+            show=True,                 # Show the dialog immediately after creation
+            callback=handle_file_selection,
+            cancel_callback=handle_cancel,
+            tag=dialog_tag,
+            width=500,
+            height=400
+        ):
+            dpg.add_file_extension(".eys", custom_text="[Eyescire Engine Project]")
+            dpg.add_file_extension(".*", custom_text="[All Files]")
+    else:
+        # If the dialog exists, just show it
+        dpg.show_item(dialog_tag)
 
 # --- SELECT TEMPLATE --- #
 def Select_Template():
@@ -45,11 +102,34 @@ def Select_Template():
                 tag="btn_3d"
             )
             dpg.add_spacer(height=10)
+            
+            # Load From Folder Section
+            dpg.add_text("Load From Folder", color=(200,200,200))
+            dpg.add_button(
+                label="Load from folder",
+                width=320,
+                height=35,
+                callback=lambda: load_template("Existing"),
+                tag="btn_exist"
+            )
 
         dpg.add_separator()
         dpg.add_spacer(height=10)
         with dpg.group(tag="template_text"):
             dpg.add_text("Select a template to begin...", color=(150, 150, 150))
+
+# --- LOAD 2D TEMPLATE --- #
+def Load2D():
+    pass
+
+# --- LOAD 3D TEMPLATE --- #
+def LOAD3D():
+    pass
+
+
+# --- LOAD ENGINE --- #
+def LoadEyescireEngine():
+    pass
 
 # --- MAIN WINDOW --- #
 if __name__ == "__main__":
