@@ -7,6 +7,7 @@ selected_file = None
 
 # --- IMPORTS ---- #
 import Dependencies
+import BinaryCompiler
 import dearpygui.dearpygui as dpg
 from dearpyguisimple import CreateWindow, StartApp
 
@@ -140,3 +141,4 @@ if __name__ == "__main__":
         content_function=Select_Template
     )
     StartApp()
+
