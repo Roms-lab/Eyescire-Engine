@@ -121,11 +121,35 @@ def Select_Template():
 
 # --- LOAD 2D TEMPLATE --- #
 def Load2D():
-    pass
+    filename = "new_2d_project.eys"
+    
+    # 1. Call the conversion function and capture its return value
+    binary_data, _ = BinaryCompiler.convert_object_to_binary(
+        "2D", "DefaultObject", "DefaultInfo", "default_texture.png", 0, 0, 0
+    )
+    
+    # 2. Pass the captured binary data to the write function
+    BinaryCompiler.write_binary_file(filename, binary_data)
+    
+    print(f"[Eyescire Engine] Created new 2D project file: {filename}")
+    
+    # Transition to the main editor window
+    # dpg.delete_item("template_selection_window_tag") # Replace with your window tag
+    # LoadEyescireEngine(filename)
 
 # --- LOAD 3D TEMPLATE --- #
 def LOAD3D():
-    pass
+    filename = "new_3d_project.eys"
+    
+    # 1. Call the conversion function and capture its return value
+    binary_data, _ = BinaryCompiler.convert_object_to_binary(
+        "3D", "DefaultObject", "DefaultInfo", "default_texture.png", 0, 0, 0
+    )
+    
+    # 2. Pass the captured binary data to the write function
+    BinaryCompiler.write_binary_file(filename, binary_data)
+    
+    print(f"[Eyescire Engine] Created new 3D project file: {filename}")
 
 
 # --- LOAD ENGINE --- #
@@ -141,4 +165,3 @@ if __name__ == "__main__":
         content_function=Select_Template
     )
     StartApp()
-
