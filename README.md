@@ -31,3 +31,8 @@ A powerful cross-platform game engine built with Python and C++, supporting both
 **https://download-eyescire.netlify.app/**
 
 <img width="1024" height="1024" alt="ChatGPT Image Oct 25, 2025, 07_53_01 PM" src="https://github.com/user-attachments/assets/1b183763-3d29-47df-8b00-e0fbf732e1b9" />
+
+
+## Screenshots
+
+<img width="1365" height="718" alt="image" src="https://github.com/user-attachments/assets/d93dfef5-3792-43f1-b234-30467ea9ddfb" />
