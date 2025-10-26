@@ -12,6 +12,7 @@ from dearpyguisimple import CreateWindow, StartApp
 selected_file = None
 MAIN_CONTENT_GROUP_TAG = "main_content_group"
 window_tag = None # Global variable to hold the window tag
+selected_gameobject = "No Gameobject Selected"
 
 # --- CALLBACKS --- #
 def load_template(template_type):
@@ -135,6 +136,19 @@ def MainEditor(dimension):
         dpg.add_separator()
         dpg.add_spacer(height=8)
         dpg.add_text("Placehold for Main Editor. While you wait 3 BILLION years for this lazy dev to do his job have a nugget! :D", color=(255, 255, 255))
+        
+        # Inspector Window
+        with dpg.window(label="Inspector Panel", width=200, height=550):
+        # Use a horizontal group to arrange items side-by-side
+            with dpg.group(horizontal=True):
+                # Add a spacer to create the desired left margin
+                dpg.add_spacer() # Adjust the width for more or less space
+                dpg.add_text(selected_gameobject)
+
+        # Assets Window
+        with dpg.window(label="Assets", width=1370, height=50):
+            with dpg.group(horizontal=True):
+                pass
 
 # --- LOAD 2D TEMPLATE --- #
 def Load2D():
