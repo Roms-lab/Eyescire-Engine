@@ -2,9 +2,6 @@
 # PROPERTY OF THE EYESCIRE ENGINE #
 ###################################
 
-selected_file = None
-
-
 # --- IMPORTS ---- #
 import Dependencies
 import BinaryCompiler
@@ -22,11 +19,12 @@ def load_template(template_type):
     Handles template loading and screen switching.
     """
     print(f"[Eyescire Engine] {template_type} Template Selected")
-    clear_main_content() # Clear the current screen
 
     if template_type == "2D":
+        clear_main_content()
         Load2D()
     elif template_type == "3D":
+        clear_main_content()
         LOAD3D()
     elif template_type == "Existing":
         LOADEXISTING()
@@ -41,7 +39,8 @@ def handle_file_selection(sender, app_data):
     
     if selected_file:
         print(f"Selected file: {selected_file}")
-        clear_main_content()
+        # Clear the content *after* a file is confirmed selected
+        clear_main_content() 
         LoadEyescireEngine(selected_file)
     else:
         print("No file was selected.")
@@ -164,16 +163,12 @@ def LoadEyescireEngine(project_info):
 
 # --- MAIN WINDOW --- #
 if __name__ == "__main__":
-    # The setup function is no longer needed as the content is added later.
     window_tag = CreateWindow(
         title="Eyescire Engine",
         width=1200,
         height=700,
     )
     
-    # Add the main content group after the window has been created.
-    # The `CreateWindow` function does not require a `content_function` if
-    # you add the content manually after it returns.
     dpg.add_group(tag=MAIN_CONTENT_GROUP_TAG, horizontal=False, parent=window_tag)
     Select_Template()
 
