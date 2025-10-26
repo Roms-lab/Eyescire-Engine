@@ -4,7 +4,7 @@
 
 import struct
 
-def convert_object_to_binary(object_name, object_info, x, y, z):
+def convert_object_to_binary(dimension ,object_name, object_info, texure, x, y, z):
     """
     Converts object information into a custom binary format and returns
     the binary data and its hexadecimal string representation.
@@ -44,14 +44,16 @@ def write_binary_file(filename, binary_data):
         
 if __name__ == '__main__':
     # --- Data for a single object ---
+    dimension =  "3D"
     name = "Wall"
-    info = "Mesh-Cylinder, Eyescire.png"
+    info = "Mesh-Cylinder"
+    texure = "blah.png"
     pos_x = 0.5
     pos_y = 10.0
     pos_z = 8.0
     
     # --- Convert and get the data ---
-    binary_data, hex_string = convert_object_to_binary(name, info, pos_x, pos_y, pos_z)
+    binary_data, hex_string = convert_object_to_binary(dimension, name, info, texure, pos_x, pos_y, pos_z)
     
     # --- Print the results ---
     print(f"Object Name:   {name}")
