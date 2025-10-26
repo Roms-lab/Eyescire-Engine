@@ -1,3 +1,7 @@
+###################################
+# PROPERTY OF THE EYESCIRE ENGINE #
+###################################
+
 import struct
 
 def convert_object_to_binary(object_name, object_info, x, y, z):
