@@ -6,9 +6,13 @@ A powerful cross-platform game engine built with Python and C++, supporting both
 
 - **2D & 3D Support**: Full-featured rendering for both 2D and 3D games
 - **C++ Scripting**: Write game logic in C++ for high performance
-- **Python Integration**: Leverage Python for rapid prototyping and tooling
+- **C# Integration**: From people coming from things like unity, we have offical C# bindings for the engine 
 - **Modular Architecture**: Easy to extend and customize
 - **Real-time Rendering**: Optimized graphics pipeline
+
+## DISCLAMER
+
+***We are currently working on porting the entire engine to C++. Python is just too slow for general game engine UI. The entire engine is being ported to Win32, OpenGL, and Dear imgui. So if you see any bugs in the new system. Please report immediately.***
 
 ## Supported Operating Systems
 
