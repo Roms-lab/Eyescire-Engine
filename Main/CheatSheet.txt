@@ -1,0 +1,94 @@
+-----------------------------------------------------------------------
+                        DEAR IMGUI CHEAT SHEET
+                    Essential Functions Reference
+-----------------------------------------------------------------------
+
+[1] WINDOWS & CONTAINERS
+-----------------------------------------------------------------------
+Begin("Name")                   // Start a window. Returns false if collapsed.
+End()                           // End the current window. MUST match Begin().
+BeginChild("ID")                // Start a scrolling region within a window.
+EndChild()                      // End the child region.
+BeginGroup()                    // Lock x-position for a group of items.
+EndGroup()                      // Unlock x-position.
+IsWindowAppearing()             // True if window is fading in.
+IsWindowCollapsed()             // True if window is collapsed.
+
+[2] LAYOUT & POSITIONING
+-----------------------------------------------------------------------
+SameLine()                      // Put next widget on the same line.
+Separator()                     // Horizontal line divider.
+Spacing()                       // Add small vertical space.
+Dummy(ImVec2(x,y))              // Add invisible spacer of size x,y.
+Indent(float) / Unindent()      // Move cursor right/left.
+SetNextItemWidth(float)         // Set width for the VERY NEXT widget only.
+PushItemWidth(float)            // Set width for ALL subsequent widgets.
+PopItemWidth()                  // Restore previous width.
+GetCursorPos()                  // Get current drawing position (local).
+SetCursorPos(ImVec2)            // Jump cursor to local coordinates.
+GetContentRegionAvail()         // Get available space (x,y) in current window.
+
+[3] BASIC WIDGETS
+-----------------------------------------------------------------------
+Text("Fmt", ...)                // Simple text label (printf style).
+TextColored(ImVec4, "Fmt")      // Colored text.
+TextDisabled("Fmt")             // Greyed out text.
+Button("Label")                 // Clickable button. Returns true on click.
+SmallButton("Label")            // Smaller button (matches text height).
+InvisibleButton("ID", size)     // Invisible click zone.
+Image(texID, size)              // Display texture.
+Checkbox("Label", &bool)        // Boolean toggle.
+RadioButton("Label", active)    // Mutually exclusive option.
+ProgressBar(fraction)           // Horizontal bar (0.0f to 1.0f).
+Bullet() / BulletText("Fmt")    // Draw a small dot or bulleted text.
+
+[4] INPUT WIDGETS (Data Entry)
+-----------------------------------------------------------------------
+InputText("Lbl", buf, len)      // Text input box (requires char buffer).
+InputInt("Lbl", &int)           // Integer input.
+InputFloat("Lbl", &float)       // Float input.
+DragInt("Lbl", &int)            // Click and drag to change value.
+DragFloat("Lbl", &float)        // Click and drag float.
+SliderInt("Lbl", &i, min, max)  // Slider for integers.
+SliderFloat("Lbl", &f, min, max)// Slider for floats.
+ColorEdit3("Lbl", col[3])       // RGB Color picker.
+ColorEdit4("Lbl", col[4])       // RGBA Color picker.
+
+[5] TREES & LISTS
+-----------------------------------------------------------------------
+TreeNode("Label")               // Collapsible tree header. Returns true if open.
+TreePop()                       // MUST call if TreeNode returned true.
+CollapsingHeader("Label")       // Flatter version of TreeNode (for settings).
+BeginListBox("Label")           // Start a scrolling list box.
+EndListBox()                    // End list box.
+Selectable("Label", &selected)  // Highlightable text item (like in menus).
+
+[6] MENUS & POPUPS
+-----------------------------------------------------------------------
+BeginMainMenuBar()              // Top global menu bar.
+EndMainMenuBar()
+BeginMenuBar()                  // Menu bar attached to current window.
+EndMenuBar()
+BeginMenu("File")               // Dropdown menu (e.g., File, Edit).
+EndMenu()                       // Close menu.
+MenuItem("Save")                // Clickable item inside a menu.
+OpenPopup("ID")                 // Mark a popup to open next frame.
+BeginPopup("ID")                // The actual popup content.
+EndPopup()
+
+[7] TOOLTIPS
+-----------------------------------------------------------------------
+SetTooltip("Fmt", ...)          // Set global tooltip (hover anywhere).
+BeginTooltip()                  // Custom tooltip window.
+EndTooltip()
+if (IsItemHovered())            // Check if previous widget is hovered...
+    SetTooltip("Help me");      // ...and show tip.
+
+[8] UTILITIES & IO
+-----------------------------------------------------------------------
+GetIO().Framerate               // Current FPS.
+GetIO().MousePos                // Mouse position (x,y).
+GetIO().DeltaTime               // Time since last frame.
+GetTime()                       // Global time in seconds.
+IsItemClicked()                 // Was the LAST widget clicked?
+IsItemActive()                  // Is the LAST widget being held/edited?
