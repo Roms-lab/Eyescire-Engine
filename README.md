@@ -38,6 +38,4 @@ A powerful cross-platform game engine built with C++, supporting both 2D and 3D 
 
 
 ## Screenshots
-
-<img width="1365" height="718" alt="image" src="https://github.com/user-attachments/assets/d93dfef5-3792-43f1-b234-30467ea9ddfb" />
-<img width="1365" height="721" alt="image" src="https://github.com/user-attachments/assets/57a7fa3f-ed07-495f-9a95-dba3afc84591" />
+<img width="1365" height="717" alt="image" src="https://github.com/user-attachments/assets/552b7988-22bb-4d58-98e9-cf01bbdaeb8a" />
