@@ -49,6 +49,7 @@ static bool ShowFPS = true;
 static bool PROJECT_OPEN = false;
 static bool PROJECT_2D = false;
 static bool PROJECT_3D = false;
+static bool project_settings_open = false;
 
 // Main code
 int main(int, char**)
@@ -290,13 +291,8 @@ int main(int, char**)
                 // Project Tab
                 if (ImGui::BeginMenu("Project")) {
                     if (ImGui::MenuItem("Project Settings")) {
+                        project_settings_open = true;
                         std::cout << "Load-PROJECT_SETTINGS\n";
-
-                        ImGui::SetNextWindowSize(viewport->WorkSize);
-                        ImGui::SetNextWindowPos(viewport->WorkPos);
-                        ImGui::Begin("Eyescire Engine - Project Settings", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-
-                        ImGui::End();
                     }
                     ImGui::EndMenu();
                 }
@@ -317,6 +313,29 @@ int main(int, char**)
             }
 
             ImGui::End();
+        }
+        if (project_settings_open) {
+            ImGui::SetNextWindowSize(viewport->WorkSize, ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowPos(viewport->WorkPos, ImGuiCond_FirstUseEver);
+            if (!ImGui::Begin("Eyescire Engine - Project Settings", &project_settings_open,
+                ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
+            {
+                ImGui::End();
+            }
+            else
+            {
+                if (PROJECT_2D) {
+                    ImGui::Text("Project Type Detected: 2D");
+                }
+                else if (PROJECT_3D) {
+                    ImGui::Text("Project Type Detected: 3D");
+                }
+                else {
+                    ImGui::Text("<ERROR> Unknown Project Type.");
+                }
+                ImGui::Text("Rendering Backend: OpenGL");
+                ImGui::End();
+            }
         }
 
         // Rendering
