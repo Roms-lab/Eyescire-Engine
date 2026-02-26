@@ -16,7 +16,9 @@ A powerful cross-platform game engine built with C++, supporting both 2D and 3D 
 
 ## Supported Operating Systems
 
-**Windows ✅**
+**Windows  x86_64✅**
+
+**Windows  x86⚠️** Requires compiling by source. 
 
 **Arm Windows ❌**
 ##
