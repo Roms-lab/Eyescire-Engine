@@ -18,7 +18,7 @@
 #include <iostream>
 
 void DisplayFPS() {
-    ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+    ImGui::Text("     |     FPS: %.1f", ImGui::GetIO().Framerate);
 }
 
 // Data stored per platform window
@@ -45,6 +45,10 @@ bool LOADING_PROJECT = false;
 
 static bool ShowDebugConsole = true;
 static bool Settings_Open = false;
+static bool ShowFPS = true;
+static bool PROJECT_OPEN = false;
+static bool PROJECT_2D = false;
+static bool PROJECT_3D = false;
 
 // Main code
 int main(int, char**)
@@ -153,83 +157,165 @@ int main(int, char**)
 
         ImGui::SetNextWindowPos(viewport->WorkPos);
         ImGui::SetNextWindowSize(viewport->WorkSize);
-        bool MainEditorWindow = ImGui::Begin("Main Window", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
-
 
         //------------------------------------------//
         //              Project Select              //
         //------------------------------------------//
-        if (MainEditorWindow)
-        {
-            DisplayFPS();
-
-            ImGui::SetWindowFontScale(1.5f); // Font Size For Title
-            ImGui::Text("Eyescire Engine - Main Editor");
-            ImGui::SetWindowFontScale(1.0f); // Instantly Revert Font Size
-
-            ImGui::SetWindowFontScale(2.0f);
-            NEW2D = ImGui::Button("2D-Project-NEW");
-            NEW3D = ImGui::Button("3D-Project-NEW");
-            EXISTING_PROJECT = ImGui::Button("Load Project");
-
-            Settings = ImGui::Button("Eyescire Settings");
-            ImGui::SetWindowFontScale(1.0f);
-
-            ImGui::End();
-        }
-
-        if (Settings) {
-            std::cout << "Load-SETTINGS\n";
-            Settings_Open = true;
-        }
-        if (NEW2D) {
-            std::cout << "Load-2D_NEW\n";
-            CreateNewScene2D();
-        }
-        if (NEW3D) {
-            std::cout << "Load-3D_NEW\n";
-            CreateNewScene3D();
-        }
-        if (EXISTING_PROJECT) {
-            std::cout << "Load-EXISTING_PROJECT\n";
-            LOADING_PROJECT = true;
-        }
-        if (LOADING_PROJECT) {
-            // 1. Launch the "Regular" OS File Dialog
-            // Syntax: pfd::open_file(Title, DefaultPath, Filters)
-            auto selection = pfd::open_file("Select a Eyescire Project File", ".",
-                { "Eyescire Project File", "*.eys",
-                  "All Files", "*" }).result();
-
-            // 2. Check if user selected something
-            if (!selection.empty()) {
-                std::cout << "Project Selected: " << selection[0] << "\n";
-                std::cout << "Load-EXISTING_PROJECT: " << selection[0] << "\n";
-            }
-            else {
-                std::cout << "No Project Selected.\n";
-            }
-            LOADING_PROJECT = false;
-        }
-        if (Settings_Open) {
-            ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-            if (ImGui::Begin("Eyescire Settings", &Settings_Open))
+        if (!PROJECT_OPEN) {
+            bool MainEditorWindow = ImGui::Begin("Main Window", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+            if (MainEditorWindow)
             {
-                ImGui::Checkbox("Show Debug Console", &ShowDebugConsole);
+                ImGui::SetWindowFontScale(1.5f); // Font Size For Title & FPS
+                ImGui::Text("Eyescire Engine - Main Editor");
+                if (ShowFPS) {
+                    ImGui::SameLine();
+                    DisplayFPS();
+                }
+                ImGui::SetWindowFontScale(1.0f); // Instantly Revert Font Size
+                ImGui::Separator();
+                ImGui::SetWindowFontScale(2.0f);
+                NEW2D = ImGui::Button("2D-Project-NEW");
+                ImGui::SameLine();
+                ImGui::SetWindowFontScale(1.15f);
+                ImGui::Text(" - Best for Simple & Complex 2D/2.5D Projects");
+                ImGui::Spacing();
+                ImGui::SetWindowFontScale(2.0f);
+                NEW3D = ImGui::Button("3D-Project-NEW");
+                ImGui::SameLine();
+                ImGui::SetWindowFontScale(1.15f);
+                ImGui::Text(" - Best for Simple & Complex 3D Projects");
+                ImGui::Spacing();
+                ImGui::SetWindowFontScale(2.0f);
+                EXISTING_PROJECT = ImGui::Button("Load Project");
+                ImGui::SameLine();
+                ImGui::SetWindowFontScale(1.15f);
+                ImGui::Text(" - Load Existing Eyescire Engine Project");
+                ImGui::Spacing();
+                ImGui::SetWindowFontScale(2.0f);
 
-                // 1. Check for hover BEFORE ImGui::End()
-                // 2. Use flags to ensure interacting with items (sliders/buttons) doesn't count as "clicking outside"
-                bool isHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
+                Settings = ImGui::Button("Eyescire Settings");
+                ImGui::SetWindowFontScale(1.0f);
 
-                // 3. Check for click outside
-                if (!isHovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-                    // Optional: Verify we didn't just click the "Open Settings" button this same frame
-                    if (!ImGui::IsAnyItemHovered()) {
-                        std::cout << "Unload-SETTINGS\n";
-                        Settings_Open = false;
+                ImGui::End();
+            }
+
+            if (Settings) {
+                std::cout << "Load-SETTINGS\n";
+                Settings_Open = true;
+            }
+            if (NEW2D) {
+                std::cout << "Load-2D_NEW\n";
+                CreateNewScene2D();
+                PROJECT_OPEN = true;
+                PROJECT_2D = true;
+                std::cout << "PROJECT-TYPE2D\n";
+            }
+            if (NEW3D) {
+                std::cout << "Load-3D_NEW\n";
+                CreateNewScene3D();
+                PROJECT_OPEN = true;
+                PROJECT_3D = true;
+                std::cout << "PROJECT-TYPE3D\n";
+            }
+            if (EXISTING_PROJECT) {
+                std::cout << "Load-EXISTING_PROJECT\n";
+                LOADING_PROJECT = true;
+            }
+            if (LOADING_PROJECT) {
+                // 1. Launch the "Regular" OS File Dialog
+                // Syntax: pfd::open_file(Title, DefaultPath, Filters)
+                auto selection = pfd::open_file("Select a Eyescire Project File", ".",
+                    { "Eyescire Project File", "*.eys",
+                      "All Files", "*" }).result();
+
+                // 2. Check if user selected something
+                if (!selection.empty()) {
+                    std::cout << "Project Selected: " << selection[0] << "\n";
+                    std::cout << "Load-EXISTING_PROJECT: " << selection[0] << "\n";
+                    PROJECT_OPEN = true;
+                }
+                else {
+                    std::cout << "No Project Selected.\n";
+                }
+                LOADING_PROJECT = false;
+            }
+            if (Settings_Open) {
+                ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
+                if (ImGui::Begin("Eyescire Settings", &Settings_Open))
+                {
+                    ImGui::SetWindowFontScale(1.5f);
+                    ImGui::Text("Eyescire Engine v0.0.5");
+                    ImGui::SetWindowFontScale(1.05f);
+                    ImGui::Checkbox("Show Debug Console", &ShowDebugConsole);
+                    ImGui::Checkbox("Show FPS", &ShowFPS);
+                    ImGui::SetWindowFontScale(1.0f);
+
+                    // 1. Check for hover BEFORE ImGui::End()
+                    // 2. Use flags to ensure interacting with items (sliders/buttons) doesn't count as "clicking outside"
+                    bool isHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem);
+
+                    // 3. Check for click outside
+                    if (!isHovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+                        // Optional: Verify we didn't just click the "Open Settings" button this same frame
+                        if (!ImGui::IsAnyItemHovered()) {
+                            std::cout << "Unload-SETTINGS\n";
+                            Settings_Open = false;
+                        }
                     }
                 }
+                ImGui::End();
             }
+        }
+        //------------------------------------------//
+        //              MAIN EDITOR                 //
+        //------------------------------------------//
+        if (PROJECT_OPEN) {
+            ImGui::SetNextWindowPos(viewport->WorkPos);
+            ImGui::SetNextWindowSize(viewport->WorkSize);
+            ImGui::Begin("Editor Window", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar);
+
+            ImGui::Text("Placehold for main rendering window");
+
+            if (ImGui::BeginMainMenuBar()) {
+                // File tab
+                if (ImGui::BeginMenu("File")) {
+                    if (ImGui::MenuItem("Save")) {
+                        std::cout << "PROJECT-SAVE\n";
+                    }
+                    if (ImGui::MenuItem("Exit")) {
+                        PROJECT_OPEN = false;
+                    }
+                    ImGui::EndMenu();
+                }
+                // Project Tab
+                if (ImGui::BeginMenu("Project")) {
+                    if (ImGui::MenuItem("Project Settings")) {
+                        std::cout << "Load-PROJECT_SETTINGS\n";
+
+                        ImGui::SetNextWindowSize(viewport->WorkSize);
+                        ImGui::SetNextWindowPos(viewport->WorkPos);
+                        ImGui::Begin("Eyescire Engine - Project Settings", &open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+
+                        ImGui::End();
+                    }
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMainMenuBar();
+            }
+
+            // Inspector Window
+            float menuBarHeight = ImGui::GetFrameHeight();
+            ImVec2 windowSize(200.0f, viewport->WorkSize.y * 0.85f);
+            ImVec2 windowPos(viewport->Pos.x + viewport->WorkSize.x - windowSize.x, viewport->Pos.y + menuBarHeight);
+            ImGui::SetNextWindowPos(windowPos);
+            ImGui::SetNextWindowSize(windowSize);
+            if (ImGui::Begin("Inspector", &open)) {
+
+                ImGui::Text("No Gameobject Selected.");
+
+                ImGui::End();
+            }
+
             ImGui::End();
         }
 
@@ -238,6 +324,12 @@ int main(int, char**)
         glViewport(0, 0, g_Width, g_Height);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // ==========================================
+        // >>> PUT YOUR OPENGL DRAW CALLS HERE <<<
+        // e.g., glUseProgram(myShader); glBindVertexArray(myVAO); glDrawArrays(...);
+        // ==========================================
+
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // Present
