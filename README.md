@@ -6,7 +6,7 @@ A powerful cross-platform game engine built with C++, supporting both 2D and 3D 
 
 - **2D & 3D Support**: Full-featured rendering for both 2D and 3D games
 - **C++ Scripting**: Write game logic in C++ for high performance
-- **C# Integration**: From people coming from things like unity, we have offical C# bindings for the engine ***NOTE-C# IS MUCH SLOWER THAN C++ USE AT YOUR OWN RISK.***
+- **C# Integration**: From people coming from things like unity, we have offical C# bindings for the engine. ***NOTE-C# IS MUCH SLOWER THAN C++ USE AT YOUR OWN RISK.***
 - **Modular Architecture**: Easy to extend and customize
 - **Real-time Rendering**: Optimized graphics pipeline
 
